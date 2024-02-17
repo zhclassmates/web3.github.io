@@ -8,7 +8,7 @@
 <body>
     <h1>我的聚合网址</h1>
     <ul>
-        <li><a href="https://example.com/link1">网址1</a></li>
+        <li><a href="https://example.com/link1">https://cryptobubbles.net/</a></li>
         <li><a href="https://example.com/link2">网址2</a></li>
         <li><a href="https://example.com/link3">网址3</a></li>
         <!-- 添加更多链接 -->
