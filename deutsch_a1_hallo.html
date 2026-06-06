@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A1-01-Hallo! 德语逐句跟读</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .section-title {
+            font-size: 1.3em;
+            color: #667eea;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title .icon {
+            font-size: 1.5em;
+        }
+        .sentence {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9ff;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        .sentence:hover {
+            background: #eef0ff;
+            border-left-color: #667eea;
+            transform: translateX(5px);
+        }
+        .play-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        .play-btn:active {
+            transform: scale(0.95);
+        }
+        .play-btn.playing {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .content {
+            flex: 1;
+        }
+        .german {
+            font-size: 1.2em;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .chinese {
+            font-size: 0.95em;
+            color: #888;
+        }
+        .speaker {
+            font-size: 0.8em;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+        .mode-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .mode-btn {
+            padding: 8px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        .mode-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        .mode-btn:hover {
+            transform: translateY(-2px);
+        }
+        .hidden {
+            display: none;
+        }
+        .complete-badge {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.75em;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🇩🇪 A1-01-Hallo!</h1>
+            <p>点击 ▶️ 播放按钮，逐句跟读练习</p>
+        </div>
+
+        <!-- AUDIOKURS 部分 -->
+        <div class="section">
+            <div class="section-title">
+                <span class="icon">🎧</span>
+                AUDIOKURS（听力课程）
+            </div>
+
+            <div class="sentence" data-text="Guten Morgen, Herr Müller, wie geht es Ihnen?">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Frau Schneider</div>
+                    <div class="german">Guten Morgen, Herr Müller, wie geht es Ihnen?</div>
+                    <div class="chinese">早上好，米勒先生，您好吗？</div>
+                </div>
+            </div>
+
+            <div class="sentence" data-text="Guten Morgen, Frau Schneider. Danke, gut! Und Ihnen?">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Herr Müller</div>
+                    <div class="german">Guten Morgen, Frau Schneider. Danke, gut! Und Ihnen?</div>
+                    <div class="chinese">早上好，施耐德女士。谢谢，很好！您呢？</div>
+                </div>
+            </div>
+
+            <div class="sentence" data-text="Guten Tag, Frau Kamp.">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Mann</div>
+                    <div class="german">Guten Tag, Frau Kamp.</div>
+                    <div class="chinese">您好，坎普女士。</div>
+                </div>
+            </div>
+
+            <div class="sentence" data-text="Guten Tag! Wie geht es Ihnen?">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Frau Kamp</div>
+                    <div class="german">Guten Tag! Wie geht es Ihnen?</div>
+                    <div class="chinese">您好！您好吗？</div>
+                </div>
+            </div>
+
+            <div class="sentence" data-text="Sehr gut, danke. Und Ihnen?">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Mann</div>
+                    <div class="german">Sehr gut, danke. Und Ihnen?</div>
+                    <div class="chinese">很好，谢谢。您呢？</div>
+                </div>
+            </div>
+
+            <div class="sentence" data-text="Hey, Lena! Na, wie geht's?">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Mann</div>
+                    <div class="german">Hey, Lena! Na, wie geht's?</div>
+                    <div class="chinese">嘿，莉娜！最近怎么样？</div>
+                </div>
+            </div>
+
+            <div class="sentence" data-text="Hallo, Opa!">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Frau</div>
+                    <div class="german">Hallo, Opa!</div>
+                    <div class="chinese">你好，爷爷！</div>
+                </div>
+            </div>
+
+            <div class="sentence" data-text="Hallo, Sarah. Wie geht's dir?">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Mann</div>
+                    <div class="german">Hallo, Sarah. Wie geht's dir?</div>
+                    <div class="chinese">你好，莎拉。你好吗？</div>
+                </div>
+            </div>
+
+            <div class="sentence" data-text="Hi, Tom! Super, danke. Und dir?">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Frau</div>
+                    <div class="german">Hi, Tom! Super, danke. Und dir?</div>
+                    <div class="chinese">嗨，汤姆！超好，谢谢。你呢？</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EMMA & NICO 部分 -->
+        <div class="section">
+            <div class="section-title">
+                <span class="icon">💬</span>
+                EMMA & NICO（情景对话）
+            </div>
+
+            <div class="sentence" data-text="Oh, schön!">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Emma</div>
+                    <div class="german">Oh, schön!</div>
+                    <div class="chinese">哦，真漂亮！</div>
+                </div>
+            </div>
+
+            <div class="sentence" data-text="Hm?">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Nico</div>
+                    <div class="german">Hm?</div>
+                    <div class="chinese">嗯？</div>
+                </div>
+            </div>
+
+            <div class="sentence" data-text="Die Tasche ist schön!">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Emma</div>
+                    <div class="german">Die Tasche ist schön!</div>
+                    <div class="chinese">这个包真漂亮！</div>
+                </div>
+            </div>
+
+            <div class="sentence" data-text="Entschuldigung? Schön?">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Nico</div>
+                    <div class="german">Entschuldigung? Schön?</div>
+                    <div class="chinese">抱歉？漂亮？</div>
+                </div>
+            </div>
+
+            <div class="sentence" data-text="Ja, die Tasche!">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Emma</div>
+                    <div class="german">Ja, die Tasche!</div>
+                    <div class="chinese">是的，这个包！</div>
+                </div>
+            </div>
+
+            <div class="sentence" data-text="Emma, komm jetzt! Entschuldigung!">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Lisa</div>
+                    <div class="german">Emma, komm jetzt! Entschuldigung!</div>
+                    <div class="chinese">艾玛，快来！不好意思！</div>
+                </div>
+            </div>
+
+            <div class="sentence" data-text="Adalbert-Stifter-Straße">
+                <button class="play-btn" onclick="playSentence(this)">▶</button>
+                <div class="content">
+                    <div class="speaker">Nico</div>
+                    <div class="german">Adalbert-Stifter-Straße</div>
+                    <div class="chinese">阿达尔贝特·施蒂弗特街</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mode-toggle">
+        <span style="color:#666; font-size:0.9em;">播放模式：</span>
+        <button class="mode-btn active" onclick="setMode('single')" id="btnSingle">逐句</button>
+        <button class="mode-btn" onclick="setMode('auto')" id="btnAuto">连续</button>
+    </div>
+
+    <script>
+        let currentAudio = null;
+        let playMode = 'single';
+        let playedCount = 0;
+        const totalSentences = document.querySelectorAll('.sentence').length;
+
+        function playSentence(btn) {
+            const sentence = btn.closest('.sentence');
+            const text = sentence.getAttribute('data-text');
+
+            // 停止之前的音频
+            if (currentAudio) {
+                currentAudio.pause();
+                document.querySelectorAll('.play-btn').forEach(b => {
+                    b.classList.remove('playing');
+                    b.innerHTML = '▶';
+                });
+            }
+
+            // 使用 Web Speech API
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'de-DE';
+            utterance.rate = 0.85;
+            utterance.pitch = 1;
+
+            btn.classList.add('playing');
+            btn.innerHTML = '⏸';
+
+            utterance.onend = function() {
+                btn.classList.remove('playing');
+                btn.innerHTML = '▶';
+                playedCount++;
+                updateProgress();
+
+                // 连续播放模式
+                if (playMode === 'auto') {
+                    const nextSentence = sentence.nextElementSibling;
+                    if (nextSentence && nextSentence.classList.contains('sentence')) {
+                        setTimeout(() => {
+                            playSentence(nextSentence.querySelector('.play-btn'));
+                        }, 800);
+                    }
+                }
+            };
+
+            utterance.onerror = function() {
+                btn.classList.remove('playing');
+                btn.innerHTML = '▶';
+            };
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function setMode(mode) {
+            playMode = mode;
+            document.getElementById('btnSingle').classList.toggle('active', mode === 'single');
+            document.getElementById('btnAuto').classList.toggle('active', mode === 'auto');
+        }
+
+        function updateProgress() {
+            const progress = (playedCount / totalSentences) * 100;
+            document.getElementById('progressBar').style.width = Math.min(progress, 100) + '%';
+        }
+
+        // 键盘快捷键：空格键播放/暂停
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space' && e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+                const firstBtn = document.querySelector('.play-btn:not(.playing)');
+                if (firstBtn) playSentence(firstBtn);
+            }
+        });
+    </script>
+</body>
+</html>

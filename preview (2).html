@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audiokurs 德语逐句朗读</title>
+<style>
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: #f6f6f6;
+    color: #111;
+  }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #111;
+    color: white;
+    padding: 14px;
+  }
+  h1 {
+    font-size: 20px;
+    margin: 0 0 10px;
+  }
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .controls button, select, input {
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 0;
+  }
+  .wrap {
+    padding: 14px;
+  }
+  h2 {
+    margin: 22px 0 10px;
+    font-size: 18px;
+  }
+  .line {
+    width: 100%;
+    text-align: left;
+    display: grid;
+    grid-template-columns: 42px 70px 1fr;
+    gap: 8px;
+    align-items: start;
+    margin: 8px 0;
+    padding: 14px;
+    border: 0;
+    border-radius: 14px;
+    background: white;
+    box-shadow: 0 1px 5px rgba(0,0,0,.08);
+    font-size: 18px;
+    line-height: 1.35;
+  }
+  .line.active {
+    outline: 3px solid #111;
+    background: #fff7d6;
+  }
+  .num {
+    color: #777;
+    font-variant-numeric: tabular-nums;
+  }
+  .speaker {
+    font-weight: 700;
+  }
+  .text {
+    font-size: 19px;
+  }
+  .hint {
+    color: #ddd;
+    font-size: 14px;
+    margin: 12px 0 0;
+    line-height: 1.45;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Audiokurs 德语逐句朗读</h1>
+  <div class="controls">
+    <button onclick="playAll()">连续播放</button>
+    <button onclick="stopSpeak()">停止</button>
+    <select id="voiceSelect"></select>
+    <label style="color:white;font-size:14px;">
+      速度
+      <input id="rate" type="range" min="0.5" max="1.2" step="0.05" value="0.85" style="width:100%;">
+    </label>
+  </div>
+  <div class="hint">点击任意一句即可朗读。优先选择 Deutsch / German / de-DE 语音。</div>
+</header>
+
+<div class="wrap">
+<h2>AUDIOKURS</h2>
+
+<button class="line" onclick="speakLine(0)">
+  <span class="num">01</span>
+  <span class="speaker">Frau</span>
+  <span class="text">Guten Morgen, Herr Müller, wie geht es Ihnen?</span>
+</button>
+
+
+<button class="line" onclick="speakLine(1)">
+  <span class="num">02</span>
+  <span class="speaker">Mann</span>
+  <span class="text">Guten Morgen, Frau Schneider. Danke, gut! Und Ihnen?</span>
+</button>
+
+
+<button class="line" onclick="speakLine(2)">
+  <span class="num">03</span>
+  <span class="speaker">Frau</span>
+  <span class="text">Guten Morgen, Herr Müller, wie geht es Ihnen?</span>
+</button>
+
+
+<button class="line" onclick="speakLine(3)">
+  <span class="num">04</span>
+  <span class="speaker">Mann</span>
+  <span class="text">Guten Morgen, Frau Schneider. Danke, gut! Und Ihnen?</span>
+</button>
+
+
+<button class="line" onclick="speakLine(4)">
+  <span class="num">05</span>
+  <span class="speaker">Mann</span>
+  <span class="text">Guten Tag, Frau Kamp.</span>
+</button>
+
+
+<button class="line" onclick="speakLine(5)">
+  <span class="num">06</span>
+  <span class="speaker">Frau</span>
+  <span class="text">Guten Tag! Wie geht es Ihnen?</span>
+</button>
+
+
+<button class="line" onclick="speakLine(6)">
+  <span class="num">07</span>
+  <span class="speaker">Mann</span>
+  <span class="text">Sehr gut, danke. Und Ihnen?</span>
+</button>
+
+
+<button class="line" onclick="speakLine(7)">
+  <span class="num">08</span>
+  <span class="speaker">Mann</span>
+  <span class="text">Hey, Lena! Na, wie geht’s?</span>
+</button>
+
+
+<button class="line" onclick="speakLine(8)">
+  <span class="num">09</span>
+  <span class="speaker">Frau</span>
+  <span class="text">Hallo, Opa!</span>
+</button>
+
+
+<button class="line" onclick="speakLine(9)">
+  <span class="num">10</span>
+  <span class="speaker">Mann</span>
+  <span class="text">Hallo, Sarah. Wie geht’s dir?</span>
+</button>
+
+
+<button class="line" onclick="speakLine(10)">
+  <span class="num">11</span>
+  <span class="speaker">Frau</span>
+  <span class="text">Hi, Tom! Super, danke. Und dir?</span>
+</button>
+
+<h2>EMMA</h2>
+
+<button class="line" onclick="speakLine(11)">
+  <span class="num">12</span>
+  <span class="speaker">EMMA</span>
+  <span class="text">Oh, schön!</span>
+</button>
+
+<h2>NICO</h2>
+
+<button class="line" onclick="speakLine(12)">
+  <span class="num">13</span>
+  <span class="speaker">NICO</span>
+  <span class="text">Hm?</span>
+</button>
+
+<h2>EMMA</h2>
+
+<button class="line" onclick="speakLine(13)">
+  <span class="num">14</span>
+  <span class="speaker">EMMA</span>
+  <span class="text">Die Tasche ist schön!</span>
+</button>
+
+<h2>NICO</h2>
+
+<button class="line" onclick="speakLine(14)">
+  <span class="num">15</span>
+  <span class="speaker">NICO</span>
+  <span class="text">Entschuldigung? Schön?</span>
+</button>
+
+<h2>EMMA</h2>
+
+<button class="line" onclick="speakLine(15)">
+  <span class="num">16</span>
+  <span class="speaker">EMMA</span>
+  <span class="text">Ja, die Tasche!</span>
+</button>
+
+<h2>LISA</h2>
+
+<button class="line" onclick="speakLine(16)">
+  <span class="num">17</span>
+  <span class="speaker">LISA</span>
+  <span class="text">Emma, komm jetzt! Entschuldigung!</span>
+</button>
+
+<h2>NICO</h2>
+
+<button class="line" onclick="speakLine(17)">
+  <span class="num">18</span>
+  <span class="speaker">NICO</span>
+  <span class="text">Adalbert-Stifter-Straße …</span>
+</button>
+
+</div>
+
+<script>
+const DATA = [{"section": "AUDIOKURS", "speaker": "Frau", "text": "Guten Morgen, Herr Müller, wie geht es Ihnen?"}, {"section": "AUDIOKURS", "speaker": "Mann", "text": "Guten Morgen, Frau Schneider. Danke, gut! Und Ihnen?"}, {"section": "AUDIOKURS", "speaker": "Frau", "text": "Guten Morgen, Herr Müller, wie geht es Ihnen?"}, {"section": "AUDIOKURS", "speaker": "Mann", "text": "Guten Morgen, Frau Schneider. Danke, gut! Und Ihnen?"}, {"section": "AUDIOKURS", "speaker": "Mann", "text": "Guten Tag, Frau Kamp."}, {"section": "AUDIOKURS", "speaker": "Frau", "text": "Guten Tag! Wie geht es Ihnen?"}, {"section": "AUDIOKURS", "speaker": "Mann", "text": "Sehr gut, danke. Und Ihnen?"}, {"section": "AUDIOKURS", "speaker": "Mann", "text": "Hey, Lena! Na, wie geht’s?"}, {"section": "AUDIOKURS", "speaker": "Frau", "text": "Hallo, Opa!"}, {"section": "AUDIOKURS", "speaker": "Mann", "text": "Hallo, Sarah. Wie geht’s dir?"}, {"section": "AUDIOKURS", "speaker": "Frau", "text": "Hi, Tom! Super, danke. Und dir?"}, {"section": "EMMA", "speaker": "EMMA", "text": "Oh, schön!"}, {"section": "NICO", "speaker": "NICO", "text": "Hm?"}, {"section": "EMMA", "speaker": "EMMA", "text": "Die Tasche ist schön!"}, {"section": "NICO", "speaker": "NICO", "text": "Entschuldigung? Schön?"}, {"section": "EMMA", "speaker": "EMMA", "text": "Ja, die Tasche!"}, {"section": "LISA", "speaker": "LISA", "text": "Emma, komm jetzt! Entschuldigung!"}, {"section": "NICO", "speaker": "NICO", "text": "Adalbert-Stifter-Straße …"}];
+let currentIndex = -1;
+let playMode = false;
+let voices = [];
+
+function loadVoices() {
+  voices = window.speechSynthesis.getVoices();
+  const select = document.getElementById("voiceSelect");
+  select.innerHTML = "";
+
+  const germanVoices = voices.filter(v =>
+    v.lang && v.lang.toLowerCase().startsWith("de")
+  );
+
+  const list = germanVoices.length ? germanVoices : voices;
+
+  list.forEach((v) => {
+    const opt = document.createElement("option");
+    opt.value = voices.indexOf(v);
+    opt.textContent = `${v.name} (${v.lang})`;
+    select.appendChild(opt);
+  });
+}
+
+function getVoice() {
+  const select = document.getElementById("voiceSelect");
+  const idx = Number(select.value);
+  return voices[idx] || voices.find(v => v.lang && v.lang.toLowerCase().startsWith("de")) || null;
+}
+
+function markActive(index) {
+  document.querySelectorAll(".line").forEach((el, i) => {
+    el.classList.toggle("active", i === index);
+  });
+  const active = document.querySelector(".line.active");
+  if (active) active.scrollIntoView({behavior: "smooth", block: "center"});
+}
+
+function speakLine(index, continueAfter=false) {
+  stopSpeak(false);
+  currentIndex = index;
+  markActive(index);
+
+  const item = DATA[index];
+  const utter = new SpeechSynthesisUtterance(item.text);
+  utter.lang = "de-DE";
+  utter.rate = Number(document.getElementById("rate").value || 0.85);
+  utter.pitch = 1;
+  utter.voice = getVoice();
+
+  utter.onend = () => {
+    if (continueAfter && playMode && index + 1 < DATA.length) {
+      setTimeout(() => speakLine(index + 1, true), 350);
+    }
+  };
+
+  window.speechSynthesis.speak(utter);
+}
+
+function playAll() {
+  playMode = true;
+  const start = currentIndex >= 0 ? currentIndex : 0;
+  speakLine(start, true);
+}
+
+function stopSpeak(clearMode=true) {
+  if (clearMode) playMode = false;
+  window.speechSynthesis.cancel();
+}
+
+if ("speechSynthesis" in window) {
+  loadVoices();
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+} else {
+  alert("这个浏览器不支持语音朗读，请换 Chrome 或 Safari。");
+}
+</script>
+</body>
+</html>
